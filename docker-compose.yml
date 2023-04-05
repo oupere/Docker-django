@@ -1,0 +1,43 @@
+version: '3'
+
+networks:
+  monreseau:
+    driver: bridge
+
+
+services:
+  web:
+    build: .
+    container_name: parking_app
+    volumes:
+      - /home/fadila/ifnti/S6/Django/parking/carparking:/code/
+      
+    ports:
+      - "8083:8000"
+    restart: always
+    tty: true
+                                                                                                                                                                                                                                                                                                                                                                                
+    depends_on:
+      - db
+    networks:
+      - monreseau
+
+  db:
+    image: "postgres:latest"
+    container_name: parking_db
+    environment:
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_USER: psostgres
+      POSTGRES_DB: postgres_db
+    ports:
+      - "54330:5432"
+    networks:
+      - monreseau
+    volumes:
+      - pgdb:/var/lib/postgresql/data/
+
+
+volumes:
+   pgdb:
+   static:
+   media:
